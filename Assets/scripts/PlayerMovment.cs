@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class PlayerMovment : MonoBehaviour
 {
+    private CharacterController controler; 
+
     [SerializeField]
     private float speed;
     [SerializeField]
@@ -9,33 +11,40 @@ public class PlayerMovment : MonoBehaviour
     [SerializeField]
     private float gravity;
 
-    private CharacterController cc;
     private Vector3 velocity;
+    private bool grounded;
+
+    [SerializeField]
+    private GameObject camera;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        cc= GetComponent<CharacterController>();
+        controler = GetComponent<CharacterController>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        Vector3 move = transform.right * Input.GetAxis("Horizontal") + transform.forward * Input.GetAxis("Vertical");
-        cc.Move(move*speed*Time.deltaTime);
+        velocity.y -= gravity * Time.deltaTime;
 
-        if (cc.isGrounded && velocity.y <0)
-        {
-            velocity.y = -2f;
+        grounded = controler.isGrounded; 
+        if (grounded) {
+            velocity.y = 0f;
+            //print("grounded");
         }
 
-        if (Input.GetButtonDown("Jump") && cc.isGrounded)
-        {
-            velocity.y = Mathf.Sqrt(jump*-2f*gravity);
-        }
+        Vector3 moveInput = new Vector3(Input.GetAxis("Horizontal"), velocity.y ,Input.GetAxis("Vertical"));
+        Vector3 move = transform.TransformDirection(moveInput);
 
-        velocity.y += gravity * Time.deltaTime;
-        cc.Move(velocity* Time.deltaTime);
+        controler.Move(move * Time.deltaTime);
+
+        //get rotation of camera and remove z axis. 
+        var camRo = camera.transform.forward;
+        camRo.y = 0;  
+
+        transform.forward = camRo;
+        //Debug.Log("grounded" + grounded);
     }
 }

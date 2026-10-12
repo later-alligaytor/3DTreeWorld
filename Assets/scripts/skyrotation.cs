@@ -3,7 +3,7 @@ using UnityEngine;
 public class skyrotation : MonoBehaviour
 {
     [SerializeField]
-    private float rotationSpeed = 0f;
+    private float rotationSpeed;
 
     [SerializeField]
     private GameObject element;
@@ -24,7 +24,7 @@ public class skyrotation : MonoBehaviour
     {
         //element.transform.rotate()
         //this.transform.RotateAround(target.transform.position, Vector3.up, 20 * Time.deltaTime);
-        this.transform.RotateAround(target.transform.position, way, 20 * Time.deltaTime); //(rotates around, direction, speed)
+        this.transform.RotateAround(target.transform.position, way, rotationSpeed * Time.deltaTime); //(rotates around, direction, speed)
 
     }
 }
