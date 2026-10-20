@@ -11,9 +11,10 @@ public class Lookat : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
         transform.LookAt(target.transform);
-        transform.Rotate( 90, 0, 0 );
+        //transform.Rotate( 90, 0, 0 );
+        transform.RotateAround(transform.position, transform.right, 90);
     }
 }
