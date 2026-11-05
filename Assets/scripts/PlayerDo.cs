@@ -24,6 +24,6 @@ public class PlayerDo : MonoBehaviour
     }
     public void UnlockMouse()
     {
-        Cursor.lockState = CursorLockMode.None;
+        Cursor.lockState = CursorLockMode.Confined;
     }
 }

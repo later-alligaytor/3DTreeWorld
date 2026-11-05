@@ -25,7 +25,7 @@ public class Menu : MonoBehaviour
 
     void Update ()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && !inMain)
+        if (Input.GetKeyDown(KeyCode.Alpha1) && !inMain)
         {
             if (GameIsPaused)
             {
@@ -49,6 +49,7 @@ public class Menu : MonoBehaviour
         player.LockMouse();
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
+        GameIsPaused = false;
         Debug.Log("Resume");
     }
     public void Pause ()
@@ -61,6 +62,7 @@ public class Menu : MonoBehaviour
     }
     public void EnterMain()
     {
+        pauseMenuUI.SetActive(false);
         player.UnlockMouse();
         mainMenuUI.SetActive(true);
         inMain = true;
