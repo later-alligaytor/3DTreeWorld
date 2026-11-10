@@ -30,11 +30,7 @@ public class CameraControls : MonoBehaviour
 
         mouseRotation.x += Input.GetAxis("Mouse X") * rotationSpeed;
         mouseRotation.y += Input.GetAxis("Mouse Y") * rotationSpeed;
-
-        //mouseRotation.x = Mathf.Clamp(mouseRotation.x, -rotationLimit, rotationLimit);
-        //mouseRotation.y = Mathf.Clamp(mouseRotation.y, -rotationLimit, rotationLimit);
-
-        //Debug.Log(mouseRotation);
+        mouseRotation.y = Mathf.Clamp(mouseRotation.y, -70.0F, 70.0F); //limites vertical camera rotation
         
         transform.localRotation = Quaternion.Euler(-mouseRotation.y, mouseRotation.x, mouseRotation.z);
     }

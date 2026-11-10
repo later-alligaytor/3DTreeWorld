@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5384737246769520260}
   - component: {fileID: 7278012234936178878}
   - component: {fileID: -4002333177970287182}
+  - component: {fileID: -1039283760584719031}
   m_Layer: 0
   m_Name: ETree
   m_TagString: Evil
@@ -135,3 +136,24 @@ MonoBehaviour:
   minAngle: 25
   maxAngle: 90
   rotationRange: 80
+--- !u!65 &-1039283760584719031
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4925234669857823600}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.99385214, y: 3.902725, z: 0.94521016}
+  m_Center: {x: 0, y: 1.5649995, z: -0.049894013}
