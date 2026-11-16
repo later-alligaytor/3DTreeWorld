@@ -41,7 +41,7 @@ public class GunDo : MonoBehaviour
 
         if (guideLine)
         {
-            Debug.DrawRay(player.transform.position + camera.transform.forward, camera.transform.forward*shotDis, Color.green); 
+            Debug.DrawRay(player.transform.position + camera.transform.forward/2, camera.transform.forward/2*shotDis, Color.green); 
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha4))
@@ -69,10 +69,10 @@ public class GunDo : MonoBehaviour
         StartCoroutine(StartCooldown());
     }
 
-	public void Shoot2()
+	public void Shoot2() // Is called from animation event on "Shoot" animation.
 	{
         Debug.Log("Shoot");
-        if(Physics.SphereCast(player.transform.position + camera.transform.forward, 0.05f, camera.transform.forward, out RaycastHit HitObj, shotDis, Physics.DefaultRaycastLayers,
+        if(Physics.SphereCast(player.transform.position + camera.transform.forward/2, 0.05f, camera.transform.forward/2*shotDis, out RaycastHit HitObj, shotDis, Physics.DefaultRaycastLayers,
     QueryTriggerInteraction.Collide))
         {
             Debug.Log(HitObj.collider.gameObject.tag);

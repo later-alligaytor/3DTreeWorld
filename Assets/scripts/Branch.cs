@@ -3,14 +3,18 @@ using System.Collections;
 
 public class Branch : MonoBehaviour
 {
-    [SerializeField]
-    Transform Prefab;
+    // [SerializeField]
+    // Transform Prefab;
     [SerializeField]
     float FallSpeed;
     Vector3 fall_Force;
     [SerializeField]
     float SlowSpeed;
     Vector3 slow_Force;
+
+    private bool isShot;
+    private Transform root;
+    private Branch[] allTriggers;
 
     Rigidbody rig;
     enum ModeSwitching { Start, Acceleration, Slow };
@@ -19,17 +23,19 @@ public class Branch : MonoBehaviour
     void Start()
     {
         rig = GetComponent<Rigidbody>();
+        isShot = false;
         mode = ModeSwitching.Start;
 
         fall_Force = new Vector3(0.0f, - FallSpeed, 0.0f);
         slow_Force = new Vector3(0.0f, - SlowSpeed, 0.0f);
+
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.L)){
-            mode = ModeSwitching.Acceleration;
-        }
+        // if (Input.GetKeyDown(KeyCode.L)){
+        //     mode = ModeSwitching.Acceleration;
+        // }
     }
 
     void FixedUpdate()
@@ -75,10 +81,24 @@ public class Branch : MonoBehaviour
 	    //     Physics.IgnoreCollision(collision.collider, GetComponent<Collider>()); 
 		// }
     void OnTriggerEnter(Collider collision) {
-        if (collision.tag == "Ground")
-        {
+        if (collision.tag == "Bullet") {
+	        // mode = ModeSwitching.Acceleration;
+            // isShot = true;
+
+            // Find the root of the hierarchy
+            root = transform.root;
+            // Get all instances of this script on the root and its children
+            allTriggers = root.GetComponentsInChildren<Branch>();
+            // Call the function on all of them
+            foreach (Branch trigger in allTriggers)
+            {
+                trigger.mode = ModeSwitching.Acceleration;
+                trigger.isShot = true;
+            }
+		}        
+        if (collision.tag == "Ground" && isShot){
             //If the GameObject has the same tag as specified, output this message in the console
-            mode = ModeSwitching.Slow;            
+            mode = ModeSwitching.Slow;                    
         }
         if (collision.tag == "Evil") {
 	        Physics.IgnoreCollision(collision, GetComponent<Collider>()); //mb redundant if triggers
@@ -86,4 +106,18 @@ public class Branch : MonoBehaviour
         //Add collision with destroy zone
     }    
 
+
+    // {
+    //     // Find the root of the hierarchy
+    //     Transform root = transform.root;
+
+    //     // Get all instances of this script on the root and its children
+    //     MyTrigger[] allTriggers = root.GetComponentsInChildren<MyTrigger>();
+
+    //     // Call the function on all of them
+    //     foreach (MyTrigger trigger in allTriggers)
+    //     {
+    //         // trigger.MyFunction();
+    //     }
+    // }
 }

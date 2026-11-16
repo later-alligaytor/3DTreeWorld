@@ -3,6 +3,8 @@ using UnityEngine;
 public class PlayerMovment : MonoBehaviour
 {
     private CharacterController controler; 
+    private PlayerDo pDo;
+    private Animator camAni;
 
     [SerializeField]
     private float speed;
@@ -18,6 +20,7 @@ public class PlayerMovment : MonoBehaviour
 
     private Vector3 velocity;
     private bool grounded;
+    private bool isMoving;
 
     [SerializeField]
     private GameObject camera;
@@ -29,6 +32,8 @@ public class PlayerMovment : MonoBehaviour
     void Start()
     {
         controler = GetComponent<CharacterController>();
+        pDo = GetComponent<PlayerDo>();
+        camAni = pDo.GetCam();
     }
 
     // Update is called once per frame
@@ -42,7 +47,14 @@ public class PlayerMovment : MonoBehaviour
             //print("grounded");
         }
 
-        Vector3 moveInput = new Vector3(Input.GetAxis("Horizontal"), velocity.y ,Input.GetAxis("Vertical"));
+        float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
+
+        // Check if player is moving
+        isMoving = horizontal != 0 || vertical != 0;
+        camAni.SetBool("walking", isMoving);
+
+        Vector3 moveInput = new Vector3(horizontal, velocity.y, vertical);
         Vector3 move = transform.TransformDirection(moveInput);
 
         controler.Move(move * Time.deltaTime);
@@ -51,43 +63,5 @@ public class PlayerMovment : MonoBehaviour
         camRo = camera.transform.forward;
         camRo.y = 0;
         transform.forward = camRo;
-        //Debug.Log("grounded" + grounded);
-//_________________________________________________
-        // Debug.DrawRay(transform.position+camera.transform.forward, camera.transform.forward*shotDis, Color.green); 
-        // if (Input.GetKeyDown(KeyCode.Alpha4))
-        // {
-        //     Shoot();
-        // }
-        //__________________________________________
     }
-
-    // void LateUpdate()
-    // {
-    //     Debug.DrawRay(transform.position+Vector3.forward, camera.transform.forward*shotDis, Color.green); 
-    //     if (Input.GetKeyDown(KeyCode.Alpha4))
-    //     {
-    //         Shoot();
-    //         Debug.Log("Shoot");
-    //     }
-    // }
-
-    // private void Shoot()
-    // {
-    //     Debug.Log("Shoot");
-    //     if(Physics.SphereCast(transform.position + camera.transform.forward, 0.1f, camera.transform.forward, out RaycastHit HitObj, shotDis, Physics.DefaultRaycastLayers,
-    // QueryTriggerInteraction.Collide))
-    //     {
-    //         Debug.Log(HitObj.collider.gameObject.tag);
-    //         if (HitObj.collider.gameObject.tag == "Evil")
-    //         {
-    //             //initialize "bullet" prefab (empty trigger collider with tag "bullet") on hitobj.point.
-    //             GameObject newBullet = Instantiate(bulletPrefab, HitObj.point,bulletPrefab.transform.rotation);
-    //         }
-    //         // if (HitObj.collider.gameObject.tag == "Tagged")                 
-    //         // {                     
-    //         //     Debug.DrawRay(transform.position, transform.forward, Color.green);                     
-    //         //     print("Hit");
-    //         // }             
-    //     }
-    // }
 }
