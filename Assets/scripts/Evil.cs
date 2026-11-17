@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class Evil : MonoBehaviour
 {
-    //Needs on trigger effect
     [Header("Branch Settings")]
     public GameObject segmentPrefab;
     public float branchLength;
@@ -14,6 +13,10 @@ public class Evil : MonoBehaviour
     [Header("Leader Settings")]
     //public bool Leader;
     public GameObject player;
+    [SerializeField]
+    float evilRange;
+    [SerializeField]
+    private float variation;
 
     [Header("Branch Angles")]
     public float minAngle = 25f;
@@ -23,11 +26,13 @@ public class Evil : MonoBehaviour
 
     GameObject leaderObject;
     MeshFilter meshFilter;
+    LayerMask layerPlayer;
 
     private void Start()
     {
         //Calculates the starting branches Length
         branchLength = CalculateBranchLength(this.gameObject);
+        layerPlayer = LayerMask.GetMask("Player");
     }
 
     private void Update()
@@ -38,6 +43,15 @@ public class Evil : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.G) && 0 < currentDepth && currentDepth < maxDepth){
             Grow2(leaderObject);
         }
+        // if (leaderObject != null){
+        //     Vector3 playerDie = player.transform.position - leaderObject.transform.position;
+        //     if (playerDie.magnitude> evilRange){
+        //         Debug.DrawRay(leaderObject.transform.position, playerDie, Color.blue); 
+        //     }
+        //     if(playerDie.magnitude <= evilRange){
+        //         Debug.DrawRay(leaderObject.transform.position, playerDie, Color.red); 
+        //     }
+        // }
     }
 
     float CalculateBranchLength(GameObject obj)
@@ -86,10 +100,21 @@ public class Evil : MonoBehaviour
                 Vector3 direction = player.transform.position - obj.transform.position;
                 Quaternion targetRotation = obj.transform.rotation;
 
-                if (direction.sqrMagnitude > 0.001f){
-                    targetRotation = Quaternion.FromToRotation(obj.transform.up, direction.normalized) * obj.transform.rotation;
+                if(Physics.Raycast(obj.transform.position, direction, out RaycastHit hitObj, evilRange, layerPlayer)){
+                    if (direction.sqrMagnitude > 0.001f){
+                        // Vector3 randomOffset = Random.insideUnitSphere * 0.2f;
+                        Vector3 variedDirection = (direction.normalized + Random.insideUnitSphere * variation).normalized; //Random variation in player direction.
+                        // targetRotation = Quaternion.FromToRotation(obj.transform.up, direction.normalized) * obj.transform.rotation;
+                        targetRotation = Quaternion.FromToRotation(obj.transform.up, variedDirection) * obj.transform.rotation;
+                    }
+                    branchRotation = Quaternion.RotateTowards(obj.transform.rotation, targetRotation, turnAnglePerGrowth);
                 }
-                branchRotation = Quaternion.RotateTowards(obj.transform.rotation, targetRotation, turnAnglePerGrowth);
+                else {
+                    Vector3 randomDirection = (Random.insideUnitSphere * variation).normalized; //Random direction.
+                    targetRotation = Quaternion.FromToRotation(obj.transform.up, randomDirection) * obj.transform.rotation;
+                    branchRotation = Quaternion.RotateTowards(obj.transform.rotation, targetRotation, turnAnglePerGrowth);
+                }
+
             }
             else {
                 float skew = Random.Range(minAngle, maxAngle);

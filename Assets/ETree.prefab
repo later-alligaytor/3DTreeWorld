@@ -180,12 +180,14 @@ MonoBehaviour:
   segmentPrefab: {fileID: 4925234669857823600, guid: 685a2ceb78969574d90e9f05d957dc09, type: 3}
   branchLength: 0
   currentDepth: 0
-  maxDepth: 6
-  turnAnglePerGrowth: 20
+  maxDepth: 100
+  turnAnglePerGrowth: 50
   player: {fileID: 0}
+  evilRange: 20
   minAngle: 25
   maxAngle: 90
   rotationRange: 80
+  variation: 0.5
 --- !u!114 &1086546636630278873
 MonoBehaviour:
   m_ObjectHideFlags: 0

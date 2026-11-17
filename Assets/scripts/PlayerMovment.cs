@@ -17,6 +17,7 @@ public class PlayerMovment : MonoBehaviour
     // private float shotDis;
     // [SerializeField]
     // private GameObject bulletPrefab;
+    private LayerMask layerGround;
 
     private Vector3 velocity;
     private bool grounded;
@@ -24,7 +25,6 @@ public class PlayerMovment : MonoBehaviour
 
     [SerializeField]
     private GameObject camera;
-
     private Vector3 camRo;
 
 
@@ -34,6 +34,7 @@ public class PlayerMovment : MonoBehaviour
         controler = GetComponent<CharacterController>();
         pDo = GetComponent<PlayerDo>();
         camAni = pDo.GetCam();
+        layerGround = LayerMask.GetMask("GroundEf");
     }
 
     // Update is called once per frame
@@ -56,6 +57,22 @@ public class PlayerMovment : MonoBehaviour
 
         Vector3 moveInput = new Vector3(horizontal, velocity.y, vertical);
         Vector3 move = transform.TransformDirection(moveInput);
+
+        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hitObj, 1.5f, layerGround))
+        {
+            float friction = 0f;
+            PhysicsMaterial material = hitObj.collider.sharedMaterial;
+            if (material != null)
+            {
+                friction = 1f - material.dynamicFriction;
+            }
+            // Vector3 horizontalVertical = new Vector3(horizontal, 0f, vertical); //y = 0f is used, so the friction calculation dossent effect gravity.
+            // horizontalVertical = transform.TransformDirection(horizontalVertical);
+            // horizontalVertical *= Mathf.Pow(1f - friction, Time.deltaTime);
+            // move = horizontalVertical + Vector3.up * velocity.y; //gravety is added back here via. vector(0,1,0)*y. 
+            move.x *= friction;
+            move.z *= friction;
+        }
 
         controler.Move(move * Time.deltaTime);
 
