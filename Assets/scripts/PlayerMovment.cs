@@ -61,17 +61,15 @@ public class PlayerMovment : MonoBehaviour
         if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hitObj, 1.5f, layerGround))
         {
             float friction = 0f;
+            float curSpeed = 0f;
             PhysicsMaterial material = hitObj.collider.sharedMaterial;
             if (material != null)
             {
-                friction = 1f - material.dynamicFriction;
+                friction = material.dynamicFriction;
+                curSpeed = (1f - friction) * 2f; // speeds up if friction is low, slows down if friction is high.
             }
-            // Vector3 horizontalVertical = new Vector3(horizontal, 0f, vertical); //y = 0f is used, so the friction calculation dossent effect gravity.
-            // horizontalVertical = transform.TransformDirection(horizontalVertical);
-            // horizontalVertical *= Mathf.Pow(1f - friction, Time.deltaTime);
-            // move = horizontalVertical + Vector3.up * velocity.y; //gravety is added back here via. vector(0,1,0)*y. 
-            move.x *= friction;
-            move.z *= friction;
+            move.x *= curSpeed;
+            move.z *= curSpeed;
         }
 
         controler.Move(move * Time.deltaTime);

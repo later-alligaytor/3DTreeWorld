@@ -5,6 +5,8 @@ public class Evil : MonoBehaviour
 {
     [Header("Branch Settings")]
     public GameObject segmentPrefab;
+    [SerializeField]
+    private bool isEvil;
     public float branchLength;
     public int currentDepth = 0;
     public int maxDepth = 6;
@@ -73,7 +75,6 @@ public class Evil : MonoBehaviour
     }
 
     void Grow2(GameObject obj){
-        //either GetComponent().GetChild(0).transform;
         if (segmentPrefab == null)
             return;
 
@@ -100,7 +101,7 @@ public class Evil : MonoBehaviour
                 Vector3 direction = player.transform.position - obj.transform.position;
                 Quaternion targetRotation = obj.transform.rotation;
 
-                if(Physics.Raycast(obj.transform.position, direction, out RaycastHit hitObj, evilRange, layerPlayer)){
+                if(isEvil && Physics.Raycast(obj.transform.position, direction, out RaycastHit hitObj, evilRange, layerPlayer)){
                     if (direction.sqrMagnitude > 0.001f){
                         // Vector3 randomOffset = Random.insideUnitSphere * 0.2f;
                         Vector3 variedDirection = (direction.normalized + Random.insideUnitSphere * variation).normalized; //Random variation in player direction.
