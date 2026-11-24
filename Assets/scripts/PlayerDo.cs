@@ -43,24 +43,35 @@ public class PlayerDo : MonoBehaviour
     {
         if (collision.gameObject.tag == "Evil") 
         {
-            damagingObjects++;
-            if (damagingObjects == 1)
-            {
-                takingDamage = true;
-                StartCoroutine(DamageTimer());
+            Evil tree = collision.GetComponentInParent<Evil>();
+            if (tree.isEvil){
+                damagingObjects++;
+                if (damagingObjects == 1)
+                {
+                    takingDamage = true;
+                    StartCoroutine(DamageTimer());
+                }
             }
         }
     }
     void OnTriggerExit(Collider collision) {
-        if (collision.tag == "Evil") 
+        if (collision.gameObject.tag == "Evil") 
         {
-            damagingObjects--;
-            if (damagingObjects <= 0)
-            {
-                damagingObjects = 0;
-                takingDamage = false;
-                // damageCoroutine = null;
+            Evil tree = collision.GetComponentInParent<Evil>();
+            if (tree.isEvil){
+                damagingObjects--;
+                if (damagingObjects <= 0)
+                {
+                    damagingObjects = 0;
+                    takingDamage = false;
+                    // damageCoroutine = null;
+                }
             }
+        }
+        if (collision.gameObject.tag == "Delete") 
+        {
+            HP = 0;
+            uiManager.GetComponent<Menu>().GameOver();
         }
     }
 

@@ -6,7 +6,7 @@ public class Evil : MonoBehaviour
     [Header("Branch Settings")]
     public GameObject segmentPrefab;
     [SerializeField]
-    private bool isEvil;
+    public bool isEvil;
     public float branchLength;
     public int currentDepth = 0;
     public int maxDepth = 6;
