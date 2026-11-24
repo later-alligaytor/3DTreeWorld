@@ -52,7 +52,7 @@ public class PlayerMovment : MonoBehaviour
         float vertical = Input.GetAxis("Vertical");
 
         // Check if player is moving
-        isMoving = horizontal != 0 || vertical != 0;
+        isMoving = horizontal != 0 || vertical != 0 && grounded == true;
         camAni.SetBool("walking", isMoving);
 
         Vector3 moveInput = new Vector3(horizontal, velocity.y, vertical);

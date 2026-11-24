@@ -29,10 +29,10 @@ public class PlayerDo : MonoBehaviour
     {
     }
  
-    private void OnControllerColliderHit(ControllerColliderHit collision){ // <- because character controller instead of normal collider.
-        string collidedObjName = collision.gameObject.name;
-        Debug.Log(collidedObjName);
-    }
+    // private void OnControllerColliderHit(ControllerColliderHit collision){ // <- because character controller instead of normal collider.
+    //     string collidedObjName = collision.gameObject.name;
+    //     Debug.Log(collidedObjName);
+    // }
 
     void OnTriggerEnter(Collider collision)
     {
