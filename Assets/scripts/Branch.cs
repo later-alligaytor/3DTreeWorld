@@ -33,9 +33,6 @@ public class Branch : MonoBehaviour
 
     void Update()
     {
-        // if (Input.GetKeyDown(KeyCode.L)){
-        //     mode = ModeSwitching.Acceleration;
-        // }
     }
 
     void FixedUpdate()
@@ -48,9 +45,6 @@ public class Branch : MonoBehaviour
         {
             //This is the starting mode which resets the GameObject
             case ModeSwitching.Start:
-                //This resets the velocity of the Rigidbody
-                // rig.linearVelocity = Vector3.zero;
-                // rig.angularVelocity = Vector3.zero;
                 rig.isKinematic = true;                
                 break;
 
@@ -71,22 +65,14 @@ public class Branch : MonoBehaviour
         }
     }
 
-    // void OnCollisionEnter(Collision collision) {
-        //     if (collision.gameObject.tag == "Ground")
-        // {
-        //     //If the GameObject has the same tag as specified, output this message in the console
-        //     mode = ModeSwitching.Start;            
-        // }
-        // if (collision.gameObject.tag == "Evil") {
-	    //     Physics.IgnoreCollision(collision.collider, GetComponent<Collider>()); 
-		// }
     void OnTriggerEnter(Collider collision) {
         if (collision.tag == "Bullet") {
-	        // mode = ModeSwitching.Acceleration;
-            // isShot = true;
-
-            // Find the root of the hierarchy
-            root = transform.root;
+            if (gameObject.GetComponent<Evil>() != null){
+                root = transform;
+            }
+            else {
+                root = transform.parent;
+            }
             // Get all instances of this script on the root and its children
             allTriggers = root.GetComponentsInChildren<Branch>();
             // Call the function on all of them
@@ -103,21 +89,10 @@ public class Branch : MonoBehaviour
         if (collision.tag == "Evil") {
 	        Physics.IgnoreCollision(collision, GetComponent<Collider>()); //mb redundant if triggers
 		}
+        if (collision.tag == "Delete" && isShot) {
+	        Destroy(gameObject);
+		}
         //Add collision with destroy zone
     }    
 
-
-    // {
-    //     // Find the root of the hierarchy
-    //     Transform root = transform.root;
-
-    //     // Get all instances of this script on the root and its children
-    //     MyTrigger[] allTriggers = root.GetComponentsInChildren<MyTrigger>();
-
-    //     // Call the function on all of them
-    //     foreach (MyTrigger trigger in allTriggers)
-    //     {
-    //         // trigger.MyFunction();
-    //     }
-    // }
 }

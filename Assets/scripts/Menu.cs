@@ -5,19 +5,20 @@ using UnityEngine.SceneManagement;
 
 public class Menu : MonoBehaviour
 {
-    public static bool GameIsPaused = false;
+    public static bool GameIsPaused = false, isAlive = true;
     public static bool inMain;
 
     [SerializeField]
     GameObject pauseMenuUI;
-
     [SerializeField]
     GameObject mainMenuUI;
+    [SerializeField]
+    GameObject gameOverMenuUI;
 
     [SerializeField]
     PlayerDo player;
 
-        void Start()
+    void Start()
     {
         // player = GetComponent<PlayerDo>();
         EnterMain();
@@ -25,7 +26,7 @@ public class Menu : MonoBehaviour
 
     void Update ()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1) && !inMain)
+        if (Input.GetKeyDown(KeyCode.Alpha1) && !inMain && isAlive)
         {
             if (GameIsPaused)
             {
@@ -63,6 +64,7 @@ public class Menu : MonoBehaviour
     public void EnterMain()
     {
         pauseMenuUI.SetActive(false);
+        gameOverMenuUI.SetActive(false);
         player.UnlockMouse();
         mainMenuUI.SetActive(true);
         inMain = true;
@@ -78,17 +80,33 @@ public class Menu : MonoBehaviour
         Debug.Log("Exit Main");
     }
 // specefics
-    public void PauseFromMain ()
+    public void PauseFromMain()
     {
         pauseMenuUI.SetActive(true);
         mainMenuUI.SetActive(false);
         Debug.Log("settings");
     }
 
-        public void MainFromPause ()
+        public void MainFromPause()
     {
         mainMenuUI.SetActive(true);
         pauseMenuUI.SetActive(false);
         Debug.Log("main");
+    }
+
+        public void GameOver()
+    {
+        player.UnlockMouse();
+        pauseMenuUI.SetActive(false);
+        gameOverMenuUI.SetActive(true);
+        Time.timeScale = 0f;
+        isAlive = false;
+        Debug.Log("Game Over");
+    }
+
+        public void Restart()
+    {
+        Debug.Log("Restart");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

@@ -15,6 +15,11 @@ public class PlayerDo : MonoBehaviour
     private GameObject camera;
     private Animator camAnimator;
 
+    [SerializeField]
+    private GameObject uiManager;
+
+    private int damagingObjects;
+
     void Awake()
     {
         camAnimator = camera.GetComponent<Animator>();
@@ -38,14 +43,24 @@ public class PlayerDo : MonoBehaviour
     {
         if (collision.gameObject.tag == "Evil") 
         {
-            takingDamage = true;
-            StartCoroutine(DamageTimer());
+            damagingObjects++;
+            if (damagingObjects == 1)
+            {
+                takingDamage = true;
+                StartCoroutine(DamageTimer());
+            }
         }
     }
     void OnTriggerExit(Collider collision) {
         if (collision.tag == "Evil") 
         {
-            takingDamage = false;
+            damagingObjects--;
+            if (damagingObjects <= 0)
+            {
+                damagingObjects = 0;
+                takingDamage = false;
+                // damageCoroutine = null;
+            }
         }
     }
 
@@ -55,6 +70,13 @@ public class PlayerDo : MonoBehaviour
             HP -= 1;
             camAnimator.SetTrigger("shake");
 		    yield return new WaitForSeconds(Delay);
+
+            if (HP < 1){
+                uiManager.GetComponent<Menu>().GameOver();
+            }
+        }
+        if (damagingObjects <= 0){
+            StopCoroutine(DamageTimer());
         }
 	}
 

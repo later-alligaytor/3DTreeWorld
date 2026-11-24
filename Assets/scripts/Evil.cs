@@ -35,6 +35,17 @@ public class Evil : MonoBehaviour
         //Calculates the starting branches Length
         branchLength = CalculateBranchLength(this.gameObject);
         layerPlayer = LayerMask.GetMask("Player");
+
+        if (currentDepth == 0){
+            startGrow(this.gameObject);
+            startGrow(leaderObject);
+            startGrow(leaderObject);
+        }
+        else if (0 < currentDepth && currentDepth < maxDepth){
+            startGrow(leaderObject);
+            startGrow(leaderObject);
+            startGrow(leaderObject);
+        }
     }
 
     private void Update()
@@ -116,6 +127,55 @@ public class Evil : MonoBehaviour
                     branchRotation = Quaternion.RotateTowards(obj.transform.rotation, targetRotation, turnAnglePerGrowth);
                 }
 
+            }
+            else {
+                float skew = Random.Range(minAngle, maxAngle);
+                float rotationAroundTrunk = (360f / branchCount) * i + Random.Range(-rotationRange, rotationRange);
+                branchRotation = obj.transform.rotation * Quaternion.Euler(0, rotationAroundTrunk, 0) * Quaternion.Euler(skew, 0, 0);
+            }
+
+            GameObject newBranch = Instantiate(segmentPrefab, topOfSegment, branchRotation);
+            newBranch.transform.localScale = newBranch.transform.localScale - (newBranch.transform.localScale / Random.Range(2, 6));
+
+            newBranch.transform.SetParent(transform, true);
+
+            if (isLeader)
+            {
+                leaderObject = newBranch;
+            }
+        }
+        currentDepth += 1;
+    }
+
+    void startGrow(GameObject obj){
+        if (segmentPrefab == null)
+            return;
+
+        int branchCount = Random.Range(2, 5);
+
+        branchLength = CalculateBranchLength(obj);
+        Vector3 topOfSegment = obj.transform.position + obj.transform.up * branchLength;
+        meshFilter = obj.GetComponent<MeshFilter>();
+
+        if (meshFilter != null && meshFilter.sharedMesh != null)
+        {
+            Bounds bounds = meshFilter.sharedMesh.bounds;
+            Vector3 localTop = bounds.center + Vector3.up * bounds.extents.y;
+            topOfSegment = obj.transform.TransformPoint(localTop);
+            //gets a point to the top of the branch or something.
+        } //Dont quite get this.
+
+        for (int i = 0; i < branchCount; i++)
+        {
+            bool isLeader = (i == 0);
+            Quaternion branchRotation;
+
+            if (isLeader){
+                Quaternion targetRotation = obj.transform.rotation;
+                
+                Vector3 randomDirection = (Random.insideUnitSphere * variation).normalized; //Random direction.
+                targetRotation = Quaternion.FromToRotation(obj.transform.up, randomDirection) * obj.transform.rotation;
+                branchRotation = Quaternion.RotateTowards(obj.transform.rotation, targetRotation, turnAnglePerGrowth);
             }
             else {
                 float skew = Random.Range(minAngle, maxAngle);
