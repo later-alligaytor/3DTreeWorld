@@ -17,6 +17,9 @@ public class PlayerDo : MonoBehaviour
 
     [SerializeField]
     private GameObject uiManager;
+    [SerializeField]
+    private GameObject playerModel;
+    private ChangeMat playerMat;
 
     private int damagingObjects;
 
@@ -28,6 +31,7 @@ public class PlayerDo : MonoBehaviour
     {
         HP = HPMax;
         takingDamage = false;
+        playerMat = playerModel.GetComponent<ChangeMat>();
     }
 
     void Update()
@@ -81,6 +85,7 @@ public class PlayerDo : MonoBehaviour
             HP -= 1;
             camAnimator.SetTrigger("shake");
 		    yield return new WaitForSeconds(Delay);
+            playerMat.ChangeColor(HP);
 
             if (HP < 1){
                 uiManager.GetComponent<Menu>().GameOver();
