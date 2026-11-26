@@ -160,7 +160,7 @@ MonoBehaviour:
   currentDepth: 0
   maxDepth: 100
   turnAnglePerGrowth: 50
-  player: {fileID: 0}
+  player: {fileID: 2958701939915724759, guid: d214d50a9869c024fbd7f18eb5350f77, type: 3}
   evilRange: 20
   variation: 0.5
   minAngle: 25

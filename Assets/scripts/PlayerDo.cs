@@ -36,6 +36,9 @@ public class PlayerDo : MonoBehaviour
 
     void Update()
     {
+        // if (Input.GetKeyDown(KeyCode.P)) {
+        //     playerMat.ChangeColor(HP);
+        // }
     }
  
     // private void OnControllerColliderHit(ControllerColliderHit collision){ // <- because character controller instead of normal collider.
