@@ -76,6 +76,10 @@ public class Evil : MonoBehaviour
         return length;
     }
 
+    public GameObject GetLeader(){
+        return leaderObject;
+    }
+
     public void Grow2(GameObject obj){
         if (segmentPrefab == null)
             return;
