@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5679418515366801910}
   - component: {fileID: -4002333177970287182}
   - component: {fileID: 1086546636630278873}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: ETree
   m_TagString: Evil
   m_Icon: {fileID: 0}

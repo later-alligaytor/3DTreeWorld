@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: 67054734830158381}
   - component: {fileID: 1879477254550740576}
   - component: {fileID: 4911700628601037170}
-  m_Layer: 0
-  m_Name: ETree 1
+  m_Layer: 9
+  m_Name: ETree branch
   m_TagString: Evil
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -153,6 +153,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29a4fc6fd32de854c95c1c83c87c5d51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Branch
-  Prefab: {fileID: 6570236633088308135}
   FallSpeed: 5
   SlowSpeed: 3

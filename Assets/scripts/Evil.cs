@@ -50,20 +50,11 @@ public class Evil : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.G) && currentDepth == 0){
-            Grow2(this.gameObject);
-        }
-        else if (Input.GetKeyDown(KeyCode.G) && 0 < currentDepth && currentDepth < maxDepth){
-            Grow2(leaderObject);
-        }
-        // if (leaderObject != null){
-        //     Vector3 playerDie = player.transform.position - leaderObject.transform.position;
-        //     if (playerDie.magnitude> evilRange){
-        //         Debug.DrawRay(leaderObject.transform.position, playerDie, Color.blue); 
-        //     }
-        //     if(playerDie.magnitude <= evilRange){
-        //         Debug.DrawRay(leaderObject.transform.position, playerDie, Color.red); 
-        //     }
+        // if (Input.GetKeyDown(KeyCode.G) && currentDepth == 0){
+        //     Grow2(this.gameObject);
+        // }
+        // else if (Input.GetKeyDown(KeyCode.G) && 0 < currentDepth && currentDepth < maxDepth){
+        //     Grow2(leaderObject);
         // }
     }
 
@@ -85,7 +76,7 @@ public class Evil : MonoBehaviour
         return length;
     }
 
-    void Grow2(GameObject obj){
+    public void Grow2(GameObject obj){
         if (segmentPrefab == null)
             return;
 
