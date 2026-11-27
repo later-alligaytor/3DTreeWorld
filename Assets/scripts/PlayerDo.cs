@@ -12,8 +12,11 @@ public class PlayerDo : MonoBehaviour
     private bool takingDamage;
 
     [SerializeField]
-    private GameObject camera;
+    private GameObject gunCamera;
     private Animator camAnimator;
+    [SerializeField]
+    private GameObject camera;
+    private CameraControls camControl;
 
     [SerializeField]
     private GameObject uiManager;
@@ -25,7 +28,8 @@ public class PlayerDo : MonoBehaviour
 
     void Awake()
     {
-        camAnimator = camera.GetComponent<Animator>();
+        camAnimator = gunCamera.GetComponent<Animator>();
+        camControl = camera.GetComponent<CameraControls>();
     }
     void Start()
     {
@@ -41,10 +45,15 @@ public class PlayerDo : MonoBehaviour
         // }
     }
  
-    // private void OnControllerColliderHit(ControllerColliderHit collision){ // <- because character controller instead of normal collider.
-    //     string collidedObjName = collision.gameObject.name;
-    //     Debug.Log(collidedObjName);
-    // }
+    private void OnControllerColliderHit(ControllerColliderHit collision){ // <- because character controller instead of normal collider.
+        // string collidedObjName = collision.gameObject.name;
+        // Debug.Log(collidedObjName);
+        if (collision.gameObject.CompareTag("Delete"))
+        {
+            HP = 0;
+            uiManager.GetComponent<Menu>().GameOver();        
+        }
+    }
 
     void OnTriggerEnter(Collider collision)
     {
@@ -75,11 +84,6 @@ public class PlayerDo : MonoBehaviour
                 }
             }
         }
-        if (collision.gameObject.tag == "Delete") 
-        {
-            HP = 0;
-            uiManager.GetComponent<Menu>().GameOver();
-        }
     }
 
     private IEnumerator DamageTimer()
@@ -102,9 +106,11 @@ public class PlayerDo : MonoBehaviour
     public void LockMouse(){
         // Locks the cursor to the center of the screen and hides it automatically
         Cursor.lockState = CursorLockMode.Locked;
+        camControl.canMove = true;
     }
     public void UnlockMouse(){
         Cursor.lockState = CursorLockMode.Confined;
+        camControl.canMove = false;
     }
 
     public Animator GetCam(){

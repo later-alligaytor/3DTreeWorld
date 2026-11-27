@@ -11,6 +11,8 @@ public class Menu : MonoBehaviour
     [SerializeField]
     GameObject pauseMenuUI;
     [SerializeField]
+    GameObject pauseMenuUIV2;
+    [SerializeField]
     GameObject mainMenuUI;
     [SerializeField]
     GameObject gameOverMenuUI;
@@ -38,13 +40,6 @@ public class Menu : MonoBehaviour
         }
     }
 
-
-    // public void ReturnToMenu()
-    // {
-    //     SceneManager.LoadScene("Menu");
-    // }
-
-
     public void Resume ()
     {
         player.LockMouse();
@@ -64,6 +59,7 @@ public class Menu : MonoBehaviour
     public void EnterMain()
     {
         pauseMenuUI.SetActive(false);
+        pauseMenuUIV2.SetActive(false);
         gameOverMenuUI.SetActive(false);
         player.UnlockMouse();
         mainMenuUI.SetActive(true);
@@ -82,7 +78,7 @@ public class Menu : MonoBehaviour
 // specefics
     public void PauseFromMain()
     {
-        pauseMenuUI.SetActive(true);
+        pauseMenuUIV2.SetActive(true);
         mainMenuUI.SetActive(false);
         Debug.Log("settings");
     }
@@ -90,7 +86,7 @@ public class Menu : MonoBehaviour
         public void MainFromPause()
     {
         mainMenuUI.SetActive(true);
-        pauseMenuUI.SetActive(false);
+        pauseMenuUIV2.SetActive(false);
         Debug.Log("main");
     }
 

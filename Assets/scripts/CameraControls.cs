@@ -19,19 +19,20 @@ public class CameraControls : MonoBehaviour
 
     Vector3 mouseRotation = Vector3.zero;
 
+    public bool canMove;
+
 
     // Update is called once per frame
     void LateUpdate()
     {
-        //Vector3 desiredPosition = target.transform.position + offset;
-        //Vector3 smoothedPosition = Vector3.Slerp(transform.position, desiredPosition, Time.deltaTime);
-        //transform.position = smoothedPosition;
-        transform.position = target.transform.position + offset;
+        if (canMove){
+            transform.position = target.transform.position + offset;
 
-        mouseRotation.x += Input.GetAxis("Mouse X") * rotationSpeed;
-        mouseRotation.y += Input.GetAxis("Mouse Y") * rotationSpeed;
-        mouseRotation.y = Mathf.Clamp(mouseRotation.y, -70.0F, 70.0F); //limites vertical camera rotation
+            mouseRotation.x += Input.GetAxis("Mouse X") * rotationSpeed;
+            mouseRotation.y += Input.GetAxis("Mouse Y") * rotationSpeed;
+            mouseRotation.y = Mathf.Clamp(mouseRotation.y, -70.0F, 70.0F); //limites vertical camera rotation
         
-        transform.localRotation = Quaternion.Euler(-mouseRotation.y, mouseRotation.x, mouseRotation.z);
+            transform.localRotation = Quaternion.Euler(-mouseRotation.y, mouseRotation.x, mouseRotation.z);
+        }
     }
 }
