@@ -27,8 +27,10 @@ public class skyrotation : MonoBehaviour
 
         Vector3 place = disatnce + target.transform.position;
 
-        moon.SetPositionAndRotation(-place, Quaternion.LookRotation(target.transform.position - moon.position));
-        sun.SetPositionAndRotation(place, Quaternion.LookRotation(target.transform.position - sun.position));
+        moon.position = -place;
+        sun.position = place;
+        moon.rotation = Quaternion.LookRotation(target.transform.position - moon.position);
+        sun.rotation = Quaternion.LookRotation(target.transform.position - sun.position);
     }
 
     // Update is called once per frame
